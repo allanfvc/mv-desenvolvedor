@@ -1,0 +1,84 @@
+<div class="jumbotron">
+    <h1 class="text-center">Cadastro de Pessoas</h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <form (submit)="cadastrar($event)" #cadastroPessoa="ngForm" method="post">
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="nome">Nome <span class="text-danger">*</span></label>
+                        <input required [(ngModel)]="pessoa.nome" name="nome" type="nome" class="form-control" id="nome" placeholder="nome">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="cpf">CPF <span class="text-danger">*</span></label>
+                        <input 
+                        required [(ngModel)]="pessoa.cpf"
+                        pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+                        maxlength="14"
+                        (keypress)="formatarCpf($event)" 
+                        name="cpf" type="cpf" class="form-control" id="cpf" placeholder="Digite o cpf sem pontos ou traço">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="email">E-mail <span class="text-danger">*</span></label>
+                        <input required [(ngModel)]="pessoa.email" name="email" type="email" class="form-control" id="email" placeholder="mail@mail.com">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="data-nascimento">Data de Nascimento <span class="text-danger">*</span></label>
+                        <input required [(ngModel)]="pessoa.dataNascimento" name="dataNascimento" type="date" class="form-control" id="data-nascimento">
+                    </div>
+                </div>
+                <span *ngIf="cadastroPessoa.form.invalid" class="form-control alert-danger">
+                    Os campos com * são obrigatórios
+                </span>
+                <br>
+                <div class="form-row">
+                    <div class="col-sm-12">
+                        <form (submit)="adicionarTelefone($event)" #telefonePessoa="ngForm" method="post">
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <label for="ddd">DDD</label>
+                                    <input required [(ngModel)]="telefone.ddd" name="ddd" type="ddd" class="form-control" id="ddd" placeholder="ddd">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="telefone">Telefone</label>
+                                    <input required [(ngModel)]="telefone.numero" name="numero" type="text" class="form-control" id="telefone" placeholder="telefone">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <br>
+                                    <button style="margin-top: 8px;" type="submit" class="btn btn-primary" [disabled]="telefonePessoa.form.invalid">Adicionar</button>
+                                </div>
+                            </div>
+
+                        </form>
+                        <table class="table">
+                            <thead>
+                                <th>ID</th>
+                                <th>DDD</th>
+                                <th>Telefone</th>
+                                <th>Ações</th>
+                            </thead>
+                            <tbody *ngFor='let telefone of pessoa.telefones'>
+                                <td>{{telefone.id}}</td>
+                                <td>{{telefone.ddd}}</td>
+                                <td>{{telefone.numero}}</td>
+                                <td>
+                                        <a class="btn btn-danger text-white" (click) = "removerTelefone($event,telefone)">Deletar</a>
+                                </td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                        <button type="submit" class="btn btn-success" [disabled]="cadastroPessoa.form.invalid">Cadastrar</button>
+                        <a [routerLink]="['/']" class="btn btn-primary">Voltar</a>
+                        <br>
+                </div>          
+            </form>
+        </div>
+    </div>
+</div>
