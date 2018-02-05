@@ -16,6 +16,7 @@ export class CadastroComponent {
     service: PessoaService;
     route: ActivatedRoute;
     router: Router;
+    mensagem: string = '';
 
     constructor(service: PessoaService, route: ActivatedRoute, router: Router) {
         this.service = service;
@@ -39,25 +40,39 @@ export class CadastroComponent {
         event.preventDefault();
         let result;
         if (this.pessoa.id) {
-            result = this.service.atualizar(this.pessoa).subscribe(
-                res=>{
+            this.service.atualizar(this.pessoa).subscribe(
+                res =>{
                     this.pessoa = res.json();
+                    this.router.navigate(['']);
                 },
-                err=>{
+                err =>{
                     console.log(err);
+                    this.mensagem = "Não foi possível realizar esta operação";
                 });
-            this.router.navigate(['']);
         } else {
-            result = this.service.cadastrar(this.pessoa);
-            this.pessoa = new PessoaComponent();
+            this.service.cadastrar(this.pessoa).subscribe(
+            res =>{
+                this.pessoa = new PessoaComponent();
+                this.mensagem = ''
+            },
+            err =>{
+                console.log(err);
+                this.mensagem = "Não foi possível realizar esta operação";
+            });
         }
     }
 
     removerTelefone(event,telefone){
         event.preventDefault();
         this.service.removerTelefone(this.pessoa, telefone).subscribe(
-            res => {console.log(res.telefones)},
-            error => { console.log (error)}
+            res => { 
+                this.pessoa = res;
+                this.mensagem = '';
+            },
+            err => { 
+                console.log (err);
+                this.mensagem = "Não foi possível realizar esta operação";
+            }
         );
     }
 

@@ -54,7 +54,7 @@
                     <td>{{pessoa.idade}} Anos</td>
                     <td>{{pessoa.telefones.length}}</td>
                     <td>
-                        <a [routerLink]="['/cadastro', pessoa.id]" class="btn btn-warning">Editar</a>
+                        <a [routerLink]="['/cadastro', pessoa.id]" class="text-white btn btn-warning">Editar</a>
                         <button class="btn btn-danger" (click) = "remover(pessoa)">Deletar</button>
                     </td>
                 </tbody>
